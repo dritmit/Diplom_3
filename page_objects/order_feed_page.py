@@ -32,6 +32,7 @@ class OrderFeedPage(BasePage):
         element = [By.XPATH, f".//ul[contains(@class, 'OrderFeed_orderList_')]/li[text()={order_number}]"]
         return element
 
+
     @staticmethod
     @allure.step("Получить элемент с номером заказа из списка заказов в работе")
     def order_number_in_in_process_box_element(order_number):

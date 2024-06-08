@@ -1,6 +1,9 @@
 import allure
 from conftest import driver
-from conftest import driver_account
+from conftest import random_user_data
+from conftest import random_user_register
+from conftest import random_user_login
+from conftest import random_user_delete
 import pytest
 from page_objects.order_feed_page import OrderFeedPage
 from locators.base_page_locators import BasePageLocators
@@ -33,8 +36,9 @@ class TestOrderFeedPage:
                         ' заказа в ленте true или false. Перейти в профиль, перейти в историю заказов. Сохранить '
                         'состояние нахождения заказа в ленте true или false. Проверить, что оба значения сохраненных '
                         'состояний в значении true, а значит новый заказ отображается и в истории, и в ленте.')
-    def test_order_feed_order_in_history_exists_in_feed(self, driver_account):
-        feed_page = OrderFeedPage(driver_account)
+    def test_order_feed_order_in_history_exists_in_feed(self, driver, random_user_data, random_user_register,
+                                                        random_user_login, random_user_delete):
+        feed_page = OrderFeedPage(driver)
         order_number = feed_page.place_order_get_number(MainPageLocators.ingredient_bun_link,
                                                         MainPageLocators.ingredient_filling_link)
         feed_page.click_element_and_waiting_element_download(BasePageLocators.feed_button,
@@ -57,8 +61,9 @@ class TestOrderFeedPage:
                         'Проверить, что счетчик увеличился сравнением значений счетчика до и после создания заказа.')
     @pytest.mark.parametrize('counter', [OrderFeedPageLocators.counter_all_time,
                                          OrderFeedPageLocators.counter_today])
-    def test_order_feed_page_counters_growth(self, driver_account, counter):
-        feed_page = OrderFeedPage(driver_account)
+    def test_order_feed_page_counters_growth(self, driver, random_user_data, random_user_register,
+                                             random_user_login, random_user_delete, counter):
+        feed_page = OrderFeedPage(driver)
         feed_page.click_element_and_waiting_element_download(BasePageLocators.feed_button, counter)
         counter_before = feed_page.text_element(counter)
         feed_page.open_page_and_waiting_element_download(Urls.MAIN_PAGE, MainPageLocators.ingredient_bun_link)
@@ -80,8 +85,9 @@ class TestOrderFeedPage:
                         'Сформировать значение элемента с номером  заказа в таблице заказов "В работе". '
                         'Дождаться появления заказа в таблице "В работе"'
                         'Проверить отображение элемента в таблице "В работе"')
-    def test_order_feed_page_order_number_in_status_box(self, driver_account):
-        feed_page = OrderFeedPage(driver_account)
+    def test_order_feed_page_order_number_in_status_box(self, driver, random_user_data, random_user_register,
+                                                        random_user_login, random_user_delete):
+        feed_page = OrderFeedPage(driver)
         order_number = feed_page.place_order_get_number(MainPageLocators.ingredient_bun_link,
                                                         MainPageLocators.ingredient_filling_link)
         feed_page.click_element_and_waiting_element_download(BasePageLocators.feed_button,

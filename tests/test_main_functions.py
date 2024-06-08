@@ -1,6 +1,9 @@
 import allure
 from conftest import driver
-from conftest import driver_account
+from conftest import random_user_data
+from conftest import random_user_register
+from conftest import random_user_login
+from conftest import random_user_delete
 from page_objects.main_page import MainPage
 from locators.base_page_locators import BasePageLocators
 from locators.main_page_locators import MainPageLocators
@@ -74,11 +77,12 @@ class TestMainPage:
 
 
     @allure.title('Залогиненный пользователь может оформить заказ')
-    @allure.description('Запомнить значеиние номера заказа в невидимом модальном окне. Добавить несколько ингредиентов '
+    @allure.description('Запомнить значение номера заказа в невидимом модальном окне. Добавить несколько ингредиентов '
                         'в заказ. Кликнуть кнопку оформления заказа. Проверить что модальное окно стало видимым и '
                         'номер заказа изменился')
-    def test_main_page_place_order_authorized_success(self, driver_account):
-        main_page = MainPage(driver_account)
+    def test_main_page_place_order_authorized_success(self, driver, random_user_data, random_user_register,
+                                                      random_user_login, random_user_delete):
+        main_page = MainPage(driver)
         order_id_before = main_page.text_element(MainPageLocators.order_id)
         main_page.add_ingredient_to_basket(MainPageLocators.ingredient_bun_link)
         main_page.add_ingredient_to_basket(MainPageLocators.ingredient_filling_link)
